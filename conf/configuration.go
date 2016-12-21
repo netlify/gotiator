@@ -1,6 +1,7 @@
 package conf
 
 import (
+	"log"
 	"os"
 	"strings"
 
@@ -67,6 +68,8 @@ func LoadConfig(cmd *cobra.Command) (*Config, error) {
 	if err := viper.Unmarshal(config); err != nil {
 		return nil, err
 	}
+
+	log.Printf("Config: %v", config)
 
 	return config, nil
 }
