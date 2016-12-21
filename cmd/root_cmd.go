@@ -10,7 +10,9 @@ import (
 var rootCmd = &cobra.Command{
 	Short: "netlify-api-proxy",
 	Long:  "netlify-api-proxy",
-	Run:   run,
+	Run: func(cmd *cobra.Command, args []string) {
+		execWithConfig(cmd, serve)
+	},
 }
 
 func RootCmd() *cobra.Command {
@@ -21,20 +23,16 @@ func RootCmd() *cobra.Command {
 	return rootCmd
 }
 
-func start(cmd *cobra.Command) (*conf.Config, *logrus.Entry) {
-	config, err := conf.LoadConfig(cmd)
+func execWithConfig(cmd *cobra.Command, fn func(config *conf.Configuration)) {
+	configFile, err := cmd.Flags().GetString("config")
 	if err != nil {
-		logrus.WithError(err).Fatalf("Failed to load configuation: %v", err)
+		logrus.Fatalf("%+v", err)
 	}
 
-	log, err := conf.ConfigureLogging(&config.LogConf)
+	config, err := conf.Load(configFile)
 	if err != nil {
-		logrus.WithError(err).Fatal("Failed to configure logging")
+		logrus.Fatalf("Failed to load configration: %+v", err)
 	}
 
-	return config, log.WithField("version", Version)
-}
-
-func run(cmd *cobra.Command, _ []string) {
-	start(cmd)
+	fn(config)
 }

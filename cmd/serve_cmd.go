@@ -2,8 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"os"
-	"strconv"
 
 	"github.com/Sirupsen/logrus"
 	"github.com/netlify/netlify-api-proxy/api"
@@ -19,30 +17,8 @@ var serveCmd = &cobra.Command{
 	},
 }
 
-func execWithConfig(cmd *cobra.Command, fn func(config *conf.Config)) {
-	config, err := conf.LoadConfig(cmd)
-	if err != nil {
-		logrus.Fatalf("Failed to load configration: %+v", err)
-	}
-
-	fn(config)
-}
-
-func serve(config *conf.Config) {
+func serve(config *conf.Configuration) {
 	api := api.NewAPIWithVersion(config, Version)
-
-	if config.API.Port == 0 && os.Getenv("PORT") != "" {
-		port, err := strconv.Atoi(os.Getenv("PORT"))
-		if err != nil {
-			logrus.WithError(err).Fatal("Error formatting PORT into int")
-		}
-
-		config.API.Port = port
-	}
-
-	if config.API.Port == 0 && config.API.Host == "" {
-		config.API.Port = 8080
-	}
 
 	l := fmt.Sprintf("%v:%v", config.API.Host, config.API.Port)
 	logrus.Infof("Netlify Auth API started on: %s", l)

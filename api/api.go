@@ -65,7 +65,7 @@ func (a *API) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-func NewAPIWithVersion(config *conf.Config, version string) *API {
+func NewAPIWithVersion(config *conf.Configuration, version string) *API {
 	api := &API{version: version, jwtSecret: config.JWT.Secret}
 
 	for _, apiSettings := range config.APIs {
