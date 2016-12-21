@@ -95,6 +95,8 @@ func NewAPIWithVersion(config *conf.Config, version string) *API {
 			}
 			if proxy.token != "" {
 				req.Header.Set("Authorization", "Bearer "+proxy.token)
+			} else {
+				req.Header.Del("Authorization")
 			}
 			logrus.Infof("Proxying to: %v", req.URL)
 		}
