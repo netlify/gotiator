@@ -6,7 +6,7 @@ help: ## Show this help.
 all: deps test build ## Run the tests and build the binary.
 
 build: ## Build the binary.
-	go build -ldflags "-X github.com/< YOUR PROJECT HERE >/cmd.Version=`git rev-parse HEAD`"
+	go build -ldflags "-X github.com/netlify/netlify-api-proxy/cmd.Version=`git rev-parse HEAD`"
 
 build_linux: ## Build the binary.
 	GOOS=linux GOARCH=amd64 go build -ldflags "-X github.com/netlify/netlify-api-proxy/cmd.Version=`git rev-parse HEAD`" -o doppler_linux_amd64
