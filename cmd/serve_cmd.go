@@ -8,7 +8,6 @@ import (
 	"github.com/Sirupsen/logrus"
 	"github.com/netlify/netlify-api-proxy/api"
 	"github.com/netlify/netlify-api-proxy/conf"
-	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 )
 
@@ -35,7 +34,7 @@ func serve(config *conf.Config) {
 	if config.API.Port == 0 && os.Getenv("PORT") != "" {
 		port, err := strconv.Atoi(os.Getenv("PORT"))
 		if err != nil {
-			return nil, errors.Wrap(err, "formatting PORT into int")
+			logrus.WithError(err).Fatal("Error formatting PORT into int")
 		}
 
 		config.API.Port = port
