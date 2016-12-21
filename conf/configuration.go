@@ -6,13 +6,36 @@ import (
 
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
-
-	"github.com/rybit/service-starter/messaging"
 )
 
+// Config is the main configuration for Netlify API Proxy
 type Config struct {
-	NatsConf *messaging.NatsConfig `mapstructure:"nats_conf"`
-	LogConf  LoggingConfig         `mapstructure:"log_conf"`
+	LogConf LoggingConfig `mapstructure:"log_conf"`
+	JWT     struct {
+		Secret string `mapstructure:"secret"`
+	} `mapstructure:"jwt"`
+	APIs []APISettings `mapstructure:"apis"`
+	API  struct {
+		Host string `mapstructure:"host"`
+		Port int    `mapstructure:"port"`
+	} `mapstructure:"api"`
+}
+
+/* APISettings holds the settings for the APIs to proxy
+   The Name determines both the path prefix (ie. /github) and the
+   environment variable for the access token (NETLIFY_API_GITHUB)
+   The URL is the API URL (ie. https://api.github.com/repos/netlify/netlify-www)
+
+	 Only requests signed with a JWT with a matching JWT secret and a claim:
+	 {"app_metadata": {"roles": ["api-role"]}}
+
+	 Will be accepted (where the api-role matches one of the roles defined in the API settings) */
+type APISettings struct {
+	Name  string   `mapstructure:"name"`
+	URL   string   `mapstructure:"url"`
+	Roles []string `mapstructure:"roles"`
+
+	Token string `mapstructure:"-"`
 }
 
 // LoadConfig loads the config from a file if specified, otherwise from the environment
@@ -24,7 +47,7 @@ func LoadConfig(cmd *cobra.Command) (*Config, error) {
 		return nil, err
 	}
 
-	viper.SetEnvPrefix("doppler")
+	viper.SetEnvPrefix("netlify")
 	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	viper.AutomaticEnv()
 
@@ -33,7 +56,6 @@ func LoadConfig(cmd *cobra.Command) (*Config, error) {
 	} else {
 		viper.SetConfigName("config")
 		viper.AddConfigPath("./")
-		viper.AddConfigPath("$HOME/.doppler/")
 	}
 
 	if err := viper.ReadInConfig(); err != nil && !os.IsNotExist(err) {

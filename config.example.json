@@ -1,0 +1,16 @@
+{
+  "jwt": {
+    "secret": "IMPORTANT - YOU MUST CHANGE ME!"
+  },
+  "apis": [
+    {
+      "name": "github",
+      "url": "https://api.github.com",
+      "roles": ["github"]
+    }
+  ],
+  "api": {
+    "port": 9191,
+    "host": "localhost"
+  }
+}

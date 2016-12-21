@@ -4,19 +4,19 @@ import (
 	"github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"github.com/netlify/speedy/conf"
-	"github.com/netlify/speedy/messaging"
+	"github.com/netlify/netlify-api-proxy/conf"
 )
 
 var rootCmd = &cobra.Command{
-	Short: "speedy",
-	Long:  "speedy",
+	Short: "netlify-api-proxy",
+	Long:  "netlify-api-proxy",
 	Run:   run,
 }
 
 func RootCmd() *cobra.Command {
 	rootCmd.PersistentFlags().StringP("config", "c", "", "a config file to use")
 	rootCmd.AddCommand(versionCmd)
+	rootCmd.AddCommand(serveCmd)
 
 	return rootCmd
 }
@@ -36,8 +36,5 @@ func start(cmd *cobra.Command) (*conf.Config, *logrus.Entry) {
 }
 
 func run(cmd *cobra.Command, _ []string) {
-	config, log := start(cmd)
-	messaging.Configure(config.NatsConf, log)
-
-	// TODO
+	start(cmd)
 }
