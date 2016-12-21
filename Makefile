@@ -9,7 +9,7 @@ build: ## Build the binary.
 	go build -ldflags "-X github.com/< YOUR PROJECT HERE >/cmd.Version=`git rev-parse HEAD`"
 
 build_linux: ## Build the binary.
-	GOOS=linux GOARCH=amd64 go build -ldflags "-X github.com/< YOUR PROJECT HERE >/cmd.Version=`git rev-parse HEAD`" -o doppler_linux_amd64
+	GOOS=linux GOARCH=amd64 go build -ldflags "-X github.com/netlify/netlify-api-proxy/cmd.Version=`git rev-parse HEAD`" -o doppler_linux_amd64
 
 deps: ## Install dependencies.
 	go get -u github.com/Masterminds/glide && glide install
