@@ -5,4 +5,4 @@ ADD . /go/src/github.com/netlify/netlify-api-proxy
 RUN useradd -m netlify && cd /go/src/github.com/netlify/netlify-api-proxy && make deps build && mv netlify-api-proxy /usr/local/bin/
 
 USER netlify
-CMD ["netlify-api-proxy serve"]
+CMD ["netlify-api-proxy", "serve"]
