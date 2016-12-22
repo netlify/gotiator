@@ -13,13 +13,11 @@ import (
 	"github.com/Sirupsen/logrus"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/netlify/netlify-api-proxy/conf"
-	"github.com/rs/cors"
 )
 
 type API struct {
 	version   string
 	jwtSecret string
-	handler   http.Handler
 	apis      []*apiProxy
 }
 
@@ -99,7 +97,6 @@ func NewAPIWithVersion(config *conf.Configuration, version string) *API {
 				req.Header.Del("Authorization")
 			}
 			// Make sure we don't end up with double cors headers
-			req.Header.Del("Origin")
 			logrus.Infof("Proxying to: %v", req.URL)
 		}
 
@@ -107,19 +104,12 @@ func NewAPIWithVersion(config *conf.Configuration, version string) *API {
 		api.apis = append(api.apis, proxy)
 	}
 
-	corsHandler := cors.New(cors.Options{
-		AllowedMethods:   []string{"GET", "POST", "PATCH", "PUT", "DELETE"},
-		AllowedHeaders:   []string{"Accept", "Authorization", "Content-Type"},
-		AllowCredentials: true,
-	})
-
-	api.handler = corsHandler.Handler(api)
 	return api
 }
 
 // ListenAndServe starts the REST API
 func (a *API) ListenAndServe(hostAndPort string) error {
-	return http.ListenAndServe(hostAndPort, a.handler)
+	return http.ListenAndServe(hostAndPort, a)
 }
 
 func (a *API) authenticateProxy(w http.ResponseWriter, r *http.Request, proxy *apiProxy) bool {
