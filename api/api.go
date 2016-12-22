@@ -98,6 +98,8 @@ func NewAPIWithVersion(config *conf.Configuration, version string) *API {
 			} else {
 				req.Header.Del("Authorization")
 			}
+			// Make sure we don't end up with double cors headers
+			req.Header.Del("Origin")
 			logrus.Infof("Proxying to: %v", req.URL)
 		}
 
