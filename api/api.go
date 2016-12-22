@@ -91,10 +91,12 @@ func NewAPIWithVersion(config *conf.Configuration, version string) *API {
 				// explicitly disable User-Agent so it's not set to default value
 				req.Header.Set("User-Agent", "")
 			}
-			if proxy.token != "" {
-				req.Header.Set("Authorization", "Bearer "+proxy.token)
-			} else {
-				req.Header.Del("Authorization")
+			if req.Method != http.MethodOptions {
+				if proxy.token != "" {
+					req.Header.Set("Authorization", "Bearer "+proxy.token)
+				} else {
+					req.Header.Del("Authorization")
+				}
 			}
 			// Make sure we don't end up with double cors headers
 			logrus.Infof("Proxying to: %v", req.URL)
@@ -113,6 +115,10 @@ func (a *API) ListenAndServe(hostAndPort string) error {
 }
 
 func (a *API) authenticateProxy(w http.ResponseWriter, r *http.Request, proxy *apiProxy) bool {
+	if r.Method == http.MethodOptions {
+		return true
+	}
+
 	authHeader := r.Header.Get("Authorization")
 	if authHeader == "" {
 		UnauthorizedError(w, "This endpoint requires a Bearer token")
