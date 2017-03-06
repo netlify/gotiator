@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/Sirupsen/logrus"
-	"github.com/netlify/netlify-api-proxy/api"
-	"github.com/netlify/netlify-api-proxy/conf"
+	"github.com/netlify/gotiator/api"
+	"github.com/netlify/gotiator/conf"
 	"github.com/spf13/cobra"
 )
 

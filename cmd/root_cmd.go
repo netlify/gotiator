@@ -4,12 +4,12 @@ import (
 	"github.com/Sirupsen/logrus"
 	"github.com/spf13/cobra"
 
-	"github.com/netlify/netlify-api-proxy/conf"
+	"github.com/netlify/gotiator/conf"
 )
 
 var rootCmd = &cobra.Command{
-	Short: "netlify-api-proxy",
-	Long:  "netlify-api-proxy",
+	Short: "gotiator",
+	Long:  "gotiator",
 	Run: func(cmd *cobra.Command, args []string) {
 		execWithConfig(cmd, serve)
 	},
