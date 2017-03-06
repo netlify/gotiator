@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/Sirupsen/logrus"
-	"github.com/netlify/netlify-api-proxy/cmd"
+	"github.com/netlify/gotiator/cmd"
 )
 
 func main() {

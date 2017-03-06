@@ -1,4 +1,4 @@
-# Netlify API Proxy
+# Gotiator
 
 A tiny API Gateway based on [JWTs](https://jwt.io/).
 
@@ -10,8 +10,8 @@ Please make sure you understand its [implications and guarantees](https://writin
 ## Installing
 
 ```
-go get github.com/netlify/netlify-api-proxy
-netlify-api-proxy serve
+go get github.com/netlify/gotiator
+gotiator serve
 ```
 
 ## Configuration
@@ -30,7 +30,7 @@ variables. IE.:
 Is the same as:
 
 ```
-NETLIFY_JWT_SECRET=2134 netlify-api-proxy serve
+GOTIATOR_JWT_SECRET=2134 gotiator serve
 ```
 
 You must set your JWT secret (and we strongly recommend doing this with an environment variable)
@@ -41,7 +41,7 @@ You configure API proxying from the config.json:
 ```
 {
   "apis": [
-    {"name": "github", "url": "https://api.github.com/repos/netlify/netlify-api-proxy", "roles": ["contributor"]}
+    {"name": "github", "url": "https://api.github.com/repos/netlify/gotiator", "roles": ["contributor"]}
   ]
 }
 ```

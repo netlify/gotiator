@@ -12,7 +12,7 @@ import (
 
 	"github.com/Sirupsen/logrus"
 	"github.com/dgrijalva/jwt-go"
-	"github.com/netlify/netlify-api-proxy/conf"
+	"github.com/netlify/gotiator/conf"
 )
 
 type API struct {
