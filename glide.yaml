@@ -1,4 +1,4 @@
-package: github.com/netlify/netlify-api-proxy
+package: github.com/netlify/gotiator
 import:
 - package: github.com/Sirupsen/logrus
   version: ~0.11.0

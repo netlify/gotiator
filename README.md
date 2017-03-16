@@ -2,9 +2,9 @@
 
 A tiny API Gateway based on [JWTs](https://jwt.io/).
 
-Netlify API can handle simple API proxying with signing for single page apps that already use JWTs for authentication.
+Gotiator can handle simple API proxying with signing for single page apps that already use JWTs for authentication.
 
-Netlify API Proxy is released under the [MIT License](LICENSE).
+Gotiator Proxy is released under the [MIT License](LICENSE).
 Please make sure you understand its [implications and guarantees](https://writing.kemitchell.com/2016/09/21/MIT-License-Line-by-Line.html).
 
 ## Installing

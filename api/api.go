@@ -41,8 +41,8 @@ var bearerRegexp = regexp.MustCompile(`^(?i)Bearer (\S+$)`)
 func (a *API) Version(w http.ResponseWriter, r *http.Request) {
 	sendJSON(w, 200, map[string]string{
 		"version":     a.version,
-		"name":        "Netlify API Proxy",
-		"description": "Netlify API Proxy is a dead simple API gateway",
+		"name":        "Gotiator",
+		"description": "Gotiator is a dead simple API gateway",
 	})
 }
 
