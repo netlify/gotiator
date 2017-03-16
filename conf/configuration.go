@@ -11,7 +11,7 @@ import (
 	"github.com/spf13/viper"
 )
 
-// Config is the main configuration for Netlify API Proxy
+// Config is the main configuration for Gotiator
 type Configuration struct {
 	LogConf LoggingConfig `mapstructure:"log_conf"`
 	JWT     struct {
