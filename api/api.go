@@ -10,9 +10,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Sirupsen/logrus"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/netlify/gotiator/conf"
+	"github.com/sirupsen/logrus"
 )
 
 type API struct {
