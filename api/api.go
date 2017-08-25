@@ -8,9 +8,8 @@ import (
 	"os"
 	"regexp"
 	"strings"
-	"time"
 
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/netlify/gotiator/conf"
 	"github.com/sirupsen/logrus"
 )
@@ -130,21 +129,13 @@ func (a *API) authenticateProxy(w http.ResponseWriter, r *http.Request, proxy *a
 		return false
 	}
 
-	token, err := jwt.ParseWithClaims(matches[1], &JWTClaims{}, func(token *jwt.Token) (interface{}, error) {
-		if token.Header["alg"] != jwt.SigningMethodHS256.Name {
-			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
-		}
+	claims := JWTClaims{}
+	p := jwt.Parser{ValidMethods: []string{jwt.SigningMethodHS256.Name}}
+	_, err := p.ParseWithClaims(matches[1], &claims, func(token *jwt.Token) (interface{}, error) {
 		return []byte(a.jwtSecret), nil
 	})
 	if err != nil {
 		UnauthorizedError(w, fmt.Sprintf("Invalid token: %v", err))
-		return false
-	}
-
-	claims := token.Claims.(*JWTClaims)
-	if claims.StandardClaims.ExpiresAt < time.Now().Unix() {
-		msg := fmt.Sprintf("Token expired at %v", time.Unix(claims.StandardClaims.ExpiresAt, 0))
-		UnauthorizedError(w, msg)
 		return false
 	}
 
