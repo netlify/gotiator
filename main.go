@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/Sirupsen/logrus"
 	"github.com/netlify/gotiator/cmd"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
